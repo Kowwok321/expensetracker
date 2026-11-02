@@ -21,15 +21,19 @@ class expensetracker:
 
     def add_income(self, amount, date_range):
         pass
-        #need to add the income to the income list based on the user's input for amount and date_range
 
     def list_expenses(self):
-        pass
-        #need to print the expenses list to the user
+        def expense_sort_key(expense):
+            return expense["date"]
+        sorted_expenses = sorted(self.expenses, key=expense_sort_key)
+        print("Expenses sorted by date:")
+        for expense in sorted_expenses:
+            print(f"Date: {expense['date']}, Category: {expense['category']}, Amount: {expense['amount']}")
+        total_expense = sum(expense["amount"] for expense in sorted_expenses)
+        print(f"Total expenses: {total_expense}")
 
     def list_categories(self):
         print(f"Existing categories: {self.categories}")
-        #need to print the categories list to the user
 
 
 def main():
@@ -61,7 +65,9 @@ def main():
                     keep_adding = input("Add another category?: ")
                     if keep_adding.lower() != "yes":
                         break
-            tracker.add_category(category)
+
+        if selection == "4" or selection.lower() == "list expenses by month":
+            tracker.list_expenses()
 
         if selection == "5" or selection.lower() == "list categories":
             tracker.list_categories()
