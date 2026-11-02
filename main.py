@@ -2,7 +2,6 @@ class expensetracker:
     def __init__(self):
         self.expenses = []
         self.categories = []
-        self.income = []
 
     def add_expense(self, amount, date, category):
         if category not in self.categories:
@@ -17,10 +16,6 @@ class expensetracker:
             print(f"Category '{category}' added successfully.")
         else:
             print(f"Category '{category}' already exists.")
-
-
-    def add_income(self, amount, date_range):
-        pass
 
     def list_expenses(self):
         def expense_sort_key(expense):
@@ -42,12 +37,11 @@ def main():
         print("Tyler's Expense Tracker Menu")
         print("1. Add Expense")
         print("2. Add Category")
-        print("3. Add Income")
-        print("4. List Expenses By Month")
-        print("5. List Categories")
-        print("6. Exit")
+        print("3. List Expenses By Month")
+        print("4. List Categories")
+        print("5. Exit")
 
-        selection = input("Please select an option (1-6): ")
+        selection = input("Please select an option (1-5): ")
 
         if selection == "1" or selection.lower() == "add expense":
             amount = float(input("Enter the amount of the expense: "))
@@ -66,13 +60,13 @@ def main():
                     if keep_adding.lower() != "yes":
                         break
 
-        if selection == "4" or selection.lower() == "list expenses by month":
+        if selection == "3" or selection.lower() == "list expenses by month":
             tracker.list_expenses()
 
-        if selection == "5" or selection.lower() == "list categories":
+        if selection == "4" or selection.lower() == "list categories":
             tracker.list_categories()
 
-        if selection == "6" or selection.lower() == "exit":
+        if selection == "5" or selection.lower() == "exit":
             print("Thank you! Closing the program now.")
             break
 
