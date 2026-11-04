@@ -1,7 +1,14 @@
-class expensetracker:
-    def __init__(self):
-        self.expenses = []
-        self.categories = []
+import json
+
+class ExpenseTracker:
+    def __init__(self, path_to_file):
+        self.path_to_file = path_to_file
+        try:
+            with open(self.path_to_file, "r") as f:
+                self.expenses = json.load(f)
+        except FileNotFoundError:
+            self.expenses = []
+        self.categories = list(set(expense["category"] for expense in self.expenses))
 
     def add_expense(self, amount, date, category):
         if category not in self.categories:
@@ -9,6 +16,9 @@ class expensetracker:
             self.categories.append(category)
         self.expenses.append({"amount": amount, "date": date, "category": category})
         print("Expense added successfully. Returning to menu.")
+
+        with open(self.path_to_file, "w") as f:
+            json.dump(self.expenses, f)
 
     def add_category(self, category):
         if category not in self.categories:
@@ -32,12 +42,12 @@ class expensetracker:
 
 
 def main():
-    tracker = expensetracker()
+    tracker = ExpenseTracker("expenses.json")
     while True:
         print("Tyler's Expense Tracker Menu")
         print("1. Add Expense")
         print("2. Add Category")
-        print("3. List Expenses By Month")
+        print("3. List Expenses")
         print("4. List Categories")
         print("5. Exit")
 
@@ -45,7 +55,7 @@ def main():
 
         if selection == "1" or selection.lower() == "add expense":
             amount = float(input("Enter the amount of the expense: "))
-            date = input("Enter the date of the expense (MM-DD-YYYY): ")
+            date = input("Enter the date of the expense (YYYY-MM-DD): ")
             category = input("Enter the category of the expense: ")
             tracker.add_expense(amount, date, category)
 
@@ -60,7 +70,7 @@ def main():
                     if keep_adding.lower() != "yes":
                         break
 
-        if selection == "3" or selection.lower() == "list expenses by month":
+        if selection == "3" or selection.lower() == "list expenses":
             tracker.list_expenses()
 
         if selection == "4" or selection.lower() == "list categories":
@@ -72,4 +82,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main ()
+    main()
